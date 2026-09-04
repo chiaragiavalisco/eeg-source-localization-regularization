@@ -56,7 +56,7 @@ $$G_{ij} = \frac{c}{R^2}, \quad c = 1$$
 ### 2. Inverse Problem & Regularization Framework
 The inverse problem consists of estimating the source activity values that generated the measured electric potential field vector at the electrodes. The general strategy formulates this estimation as a regularized linear optimization problem:
 
-$$\hat{x} = \min_x \left( \Vert V - Gx \Vert_2^2 + \sum_{i=1}^k \alpha_i \|W_i x\|_p \right)$$
+$$\hat{x} = \min_x \left( \Vert V - Gx \Vert_2^2 + \sum_{i=1}^k \alpha_i \Vert W_i x\Vert_p \right)$$
 
 where:
 * $k$ is the number of regularization constraints reflecting a priori physiological information.
