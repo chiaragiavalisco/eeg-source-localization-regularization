@@ -45,23 +45,36 @@ This repository demonstrates:
 ### 1. Forward Model & Lead Field Matrix ($G$)
 Derived from electrostatic point-source field decay:
 
-$$E(r, t) = \frac{1}{4\pi\varepsilon_0} \sum_{i=1}^N \frac{q_i(t) \mathbf{a}_i(t)}{R^2}$$
+$$E(r, t) = \frac{1}{4\pi\epsilon_0} \sum_{i=1}^N \frac{q_i(t) \mathbf{a}_i(t)}{R^2}$$
 
-The coupling coefficient between electrode channel $i$ and source dipole $j$ is modeled as:
+where $R = \|r - r_i\|$, $q_i(t)$ is the signal from source $i$, and $\mathbf{a}_i(t)$ is a unit vector pointing in the direction of the line between the charge and the field point $r$.
+
+The lead field matrix $G$ is constructed using the following approximation equation, where the coupling coefficient between electrode channel $i$ and source dipole $j$ is modeled as:
 
 $$G_{ij} = \frac{c}{\|\mathbf{p}_{\text{sensor}, i} - \mathbf{p}_{\text{source}, j}\|^2}, \quad c = 1$$
 
-### 2. Inverse Methods Comparison
+### 2. Inverse Problem & Regularization Framework
+The inverse problem consists of estimating the source activity values that generated the measured electric potential field vector at the electrodes. The general strategy formulates this estimation as a regularized linear optimization problem:
+
+$$\hat{x} = \arg\min_x \left( \|V - Gx\|_2^2 + \sum_{i=1}^k \alpha_i \|W_i x\|_p \right)$$
+
+where:
+* $k$ is the number of regularization constraints reflecting a priori physiological information.
+* $W_i \in \mathbb{R}^{5 \times 32}$ are weighting matrices associated with the imposed constraints.
+* $\alpha_i > 0$ are the regularization parameters controlling the trade-off and relative importance of each penalty term.
+
+### 3. Inverse Methods Comparison
 
 * **Minimum $L^2$-Norm Regularization:**
+  Setting $k=1$, $p=2$, and identity weighting simplifies the unconstrained optimization into the minimum $L^2$-norm solution via the right pseudo-inverse:
   $$x_{\text{reg}} = G^T (G G^T)^{-1} V$$
 * **Moore-Penrose Pseudo-Inverse (SVD-based):**
+  Computed via Singular Value Decomposition with singular-value thresholding tolerance $\tau$:
   $$x_{\text{pinv}} = G^\dagger_\tau V$$
 
-### 3. Key Findings
+### 4. Key Findings
 * A tolerance threshold of $\tau = 10^{-4}$ guarantees numerical robustness, matching the analytic minimum-norm reconstruction with machine-precision residual error ($\|V - G x\| \sim 10^{-15}$).
 * A tolerance of $\tau = 10^{-3}$ excessively truncates informative singular components, resulting in non-negligible reconstruction distortion ($\sim 10^0$).
-
 ---
 
 ## 📊 Visualizations & Diagnostic Outputs
