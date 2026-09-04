@@ -51,7 +51,7 @@ where $R = \|r - r_i\|$, $q_i(t)$ is the signal from source $i$, and $\mathbf{a}
 
 The lead field matrix $G$ is constructed using the following approximation equation, where the coupling coefficient between electrode channel $i$ and source dipole $j$ is modeled as:
 
-$$G_{ij} = \frac{c}{\|\mathbf{p}_{\text{sensor}, i} - \mathbf{p}_{\text{source}, j}\|^2}, \quad c = 1$$
+$$G_{ij} = \frac{c}{R^2}, \quad c = 1$$
 
 ### 2. Inverse Problem & Regularization Framework
 The inverse problem consists of estimating the source activity values that generated the measured electric potential field vector at the electrodes. The general strategy formulates this estimation as a regularized linear optimization problem:
