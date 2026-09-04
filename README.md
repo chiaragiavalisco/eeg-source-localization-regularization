@@ -92,7 +92,7 @@ where $V \in \mathbb{R}^{5 \times 100}$, $G \in \mathbb{R}^{5 \times 32}$, and $
 
 **Chiara Giavalisco**  
 * Master's Degree Coursework: *Numerical Methods for Data Mining*  
-* [LinkedIn Profile](https://www.linkedin.com/in/chiara-giavalisco-28b1b9268/) • [GitHub Profile](https://github.com/chiaragiavalisco/chiaragiavalisco.github.io) • [Email](mailto:chiara.giavalisco@gmail.com)
+* [LinkedIn Profile](https://www.linkedin.com/in/chiara-giavalisco-28b1b9268/) • [GitHub Profile](https://github.com/chiaragiavalisco) • [Email](mailto:chiara.giavalisco@gmail.com)
 
 ---
 
