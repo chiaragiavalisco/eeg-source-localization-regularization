@@ -90,7 +90,7 @@ The script automatically generates comprehensive diagnostic plots:
 ### Running the Code
 1. Clone this repository:
    ```bash
-   git clone https://github.com/your-username/eeg-source-localization-regularization.git
+   git clone https://github.com/chiaragiavalisco/chiaragiavalisco.github.io.git
    cd eeg-source-localization-regularization
    ```
 2. Open MATLAB, navigate to the cloned folder, and run:
