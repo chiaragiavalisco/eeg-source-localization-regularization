@@ -6,23 +6,37 @@
 
 Academic computational project developed for the *Numerical Methods for Data Mining* course (Dipartimento di Matematica e Applicazioni "Renato Caccioppoli", Università degli Studi di Napoli Federico II).
 
-This project models the electroencephalography (EEG) forward problem within a 3D spherical volume conductor ($R = 20\text{ cm}$) and compares numerical methods to solve the underdetermined inverse problem of neural source localization.
+This project models the electroencephalography (EEG) forward problem within a 3D spherical volume conductor ($R = 20\text{ cm}$) and compares numerical regularization techniques to solve the underdetermined inverse problem of neural source localization.
 
 ---
 
 ## 📌 Executive Summary
 
-Electroencephalography (EEG) source localization aims to estimate intracranial neural current dipole activity from scalp electric potentials.
+Electroencephalography (EEG) source localization aims to estimate intracranial neural current dipole activity from non-invasive scalp electric potentials. 
 
-Because the number of active sources ($N = 32$) exceeds the number of recorded scalp electrode channels ($M = 5$), the forward operator yields an underdetermined linear system:
+The overall framework consists of two complementary stages:
+* **The Forward Problem**: Computes the electric potentials recorded at the surface electrodes given an assumed configuration of intracranial current sources within a discretized volume conductor model.
+* **The Inverse Problem**: Reconstructs the unknown spatio-temporal source activation profiles from the observed multichannel electrode recordings.
 
-$$V(t) = G x(t) + \epsilon(t), \quad M \ll N$$
+In this setup, the head volume conductor is discretized as a homogenous sphere of radius $R = 20\text{ cm}$ containing $N = 32$ distributed neural sources and $M = 5$ surface electrodes over $T = 100$ discrete sampling instances.
+
+The linear mapping relating internal dipole activities to scalp recordings is governed by:
+
+$$V = G x + \epsilon, \quad M \ll N$$
+
+where:
+* $V \in \mathbb{R}^{5 \times 100}$ represents the measured potential matrix across all channels over time.
+* $x \in \mathbb{R}^{32 \times 100}$ denotes the unknown source intensity matrix.
+* $G \in \mathbb{R}^{5 \times 32}$ is the **Lead Field Matrix**, encoding head geometry and conductive properties via an inverse-squared Euclidean distance metric.
+* $\epsilon \in \mathbb{R}^{5 \times 100}$ denotes additive measurement noise.
+
+Because the number of active dipole sources significantly exceeds the number of recording sensors ($M \ll N$), the inverse system is severely underdetermined and ill-conditioned, possessing an infinite number of admissible solutions.
 
 This repository demonstrates:
-1. **Geometric Forward Modeling**: Spherical head model ($R = 20\text{ cm}$), 32 random internal dipoles, and 5 scalp electrodes.
-2. **Synthetic Signal Simulation**: Coupled autoregressive (AR) dynamics across 5 channels over 100 discrete time instances with additive Gaussian noise.
-3. **Analytic Minimum-Norm Solution**: Minimum $L^2$-norm regularized reconstruction using the right pseudo-inverse $x = G^T (G G^T)^{-1} V$.
-4. **Moore-Penrose Pseudo-Inverse (TSVD)**: Truncated SVD thresholding at tolerances $\tau \in \{10^{-1}, 10^{-2}, 10^{-3}, 10^{-4}\}$ to evaluate reconstruction robustness.
+1. **Geometric Forward Modeling**: Construction of a spherical conductor ($R = 20\text{ cm}$), interior dipole coordinates ($N = 32$), and surface electrode placement ($M = 5$).
+2. **Dynamic Signal Simulation**: Multichannel coupled autoregressive (AR) dynamics over 100 time points with additive Gaussian noise.
+3. **Analytic Minimum-Norm Solution**: Minimum $L^2$-norm regularized reconstruction using the right Moore-Penrose pseudo-inverse $x = G^T (G G^T)^{-1} V$.
+4. **Truncated SVD Thresholding**: Moore-Penrose pseudo-inversion across singular value cutoff tolerances $\tau \in \{10^{-1}, 10^{-2}, 10^{-3}, 10^{-4}\}$ to evaluate reconstruction fidelity and numerical stability.
 
 ---
 
@@ -33,11 +47,9 @@ Derived from electrostatic point-source field decay:
 
 $$E(r, t) = \frac{1}{4\pi\varepsilon_0} \sum_{i=1}^N \frac{q_i(t) \mathbf{a}_i(t)}{R^2}$$
 
-The connection between channel $i$ and source $j$ is approximated via:
+The coupling coefficient between electrode channel $i$ and source dipole $j$ is modeled as:
 
 $$G_{ij} = \frac{c}{\|\mathbf{p}_{\text{sensor}, i} - \mathbf{p}_{\text{source}, j}\|^2}, \quad c = 1$$
-
-where $V \in \mathbb{R}^{5 \times 100}$, $G \in \mathbb{R}^{5 \times 32}$, and $x \in \mathbb{R}^{32 \times 100}$.
 
 ### 2. Inverse Methods Comparison
 
@@ -47,8 +59,8 @@ where $V \in \mathbb{R}^{5 \times 100}$, $G \in \mathbb{R}^{5 \times 32}$, and $
   $$x_{\text{pinv}} = G^\dagger_\tau V$$
 
 ### 3. Key Findings
-* A tolerance threshold of $\tau = 10^{-4}$ achieves high stability and matches the analytic minimum-norm reconstruction (residual error $\|V - G x\| \sim 10^{-15}$).
-* A tolerance of $\tau = 10^{-3}$ prematurely truncates significant singular components, yielding non-negligible tracking error ($\sim 10^0$).
+* A tolerance threshold of $\tau = 10^{-4}$ guarantees numerical robustness, matching the analytic minimum-norm reconstruction with machine-precision residual error ($\|V - G x\| \sim 10^{-15}$).
+* A tolerance of $\tau = 10^{-3}$ excessively truncates informative singular components, resulting in non-negligible reconstruction distortion ($\sim 10^0$).
 
 ---
 
