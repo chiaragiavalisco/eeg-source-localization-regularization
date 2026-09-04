@@ -47,7 +47,7 @@ Derived from electrostatic point-source field decay:
 
 $$E(r, t) = \frac{1}{4\pi\epsilon_0} \sum_{i=1}^N \frac{q_i(t) \mathbf{a}_i(t)}{R^2}$$
 
-where $R = ||r - r_i ||$, $q_i(t)$ is the signal from source $i$, and $\mathbf{a}_i(t)$ is a unit vector pointing in the direction of the line between the charge and the field point $r$.
+where $R = \norm{r - r_i} ||$, $q_i(t)$ is the signal from source $i$, and $\mathbf{a}_i(t)$ is a unit vector pointing in the direction of the line between the charge and the field point $r$.
 
 The lead field matrix $G$ is constructed using the following approximation equation, where the coupling coefficient between electrode channel $i$ and source dipole $j$ is modeled as:
 
