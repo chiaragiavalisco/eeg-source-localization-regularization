@@ -69,7 +69,7 @@ where $V \in \mathbb{R}^{5 \times 100}$, $G \in \mathbb{R}^{5 \times 32}$, and $
 ### Running the Code
 1. Clone this repository:
    ```bash
-   git clone [https://chiaragiavalisco.github.io/eeg-source-localization-regularization/](https://github.com/chiaragiavalisco/eeg-source-localization-regularization/)
+   git clone [https://github.com/chiaragiavalisco/eeg-source-localization-regularization.git](https://github.com/chiaragiavalisco/eeg-source-localization-regularization.git)
    cd eeg-source-localization-regularization
 
 2. Open MATLAB, navigate to the cloned folder, and run:
